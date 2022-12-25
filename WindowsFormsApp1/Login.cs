@@ -99,6 +99,19 @@ namespace WindowsFormsApp1
             }
             else
             {
+                if (remember_me.Checked)
+                {
+                    string roamingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                    var filePath = Path.Combine(roamingDirectory, "C Sharp Project & MySQL Database\\save_files");
+                    if (!Directory.Exists(filePath))
+                        Directory.CreateDirectory(filePath);
+                    filePath = (filePath + "\\remember_me.txt");
+                    string path = Convert.ToString(filePath);
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(path, false))
+                    {
+                        file.WriteLine("Username : '" + username.Text + "', Password : '" + password.Text + "'");
+                    }
+                }
                 LogIn(username.Text, password.Text);
             }
         }

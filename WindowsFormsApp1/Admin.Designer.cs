@@ -48,6 +48,7 @@ namespace WindowsFormsApp1
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.settings = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
@@ -66,7 +67,7 @@ namespace WindowsFormsApp1
             // table_picker
             // 
             this.table_picker.FormattingEnabled = true;
-            this.table_picker.Location = new System.Drawing.Point(12, 30);
+            this.table_picker.Location = new System.Drawing.Point(104, 34);
             this.table_picker.Name = "table_picker";
             this.table_picker.Size = new System.Drawing.Size(317, 24);
             this.table_picker.TabIndex = 2;
@@ -80,6 +81,7 @@ namespace WindowsFormsApp1
             this.log_out.TabIndex = 3;
             this.log_out.Text = "Log Out";
             this.log_out.UseVisualStyleBackColor = true;
+            this.log_out.Click += new System.EventHandler(this.log_out_Click);
             // 
             // account_manager
             // 
@@ -146,6 +148,7 @@ namespace WindowsFormsApp1
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Position";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -213,11 +216,21 @@ namespace WindowsFormsApp1
             this.settings.Text = "Settings";
             this.settings.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 37);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(85, 17);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Active table:";
+            // 
             // Admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.settings);
             this.Controls.Add(this.bindingNavigator1);
             this.Controls.Add(this.account_manager);
@@ -255,5 +268,6 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
         private System.Windows.Forms.Button settings;
+        private System.Windows.Forms.Label label1;
     }
 }
