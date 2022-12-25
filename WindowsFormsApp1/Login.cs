@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
+using System.Web;
 
 namespace WindowsFormsApp1
 {
@@ -20,7 +23,72 @@ namespace WindowsFormsApp1
         public Login()
         {
             InitializeComponent();
+            CheckIfUserRemembered();
             password.UseSystemPasswordChar = true;
+        }
+        private void LogIn(string username, string password)
+        {
+            connection.Open();
+            string selectQuery = "SELECT * FROM loginform.userinfo WHERE Username = '" + username + "' AND Password = '" + password + "';";
+            command = new MySqlCommand(selectQuery, connection);
+            mdr = command.ExecuteReader();
+            if (mdr.Read())
+            {
+                string account_type = (mdr.GetString("Type"));
+                if (account_type == "Regular")
+                {
+                    this.Hide();
+                    Regular regular = new Regular();
+                    regular.ShowDialog();
+                }
+                else if (account_type == "Privileged")
+                {
+                    this.Hide();
+                    Privileged privileged = new Privileged();
+                    privileged.ShowDialog();
+                }
+                else if (account_type == "Admin")
+                {
+                    this.Hide();
+                    Admin admin = new Admin();
+                    admin.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Login information is incorrect. Try again.");
+            }
+            connection.Close();
+        }
+
+        private void CheckIfUserRemembered()
+        {
+            string roamingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var filePath = Path.Combine(roamingDirectory, "C Sharp Project & MySQL Database\\save_files");
+            if (Directory.Exists(filePath))
+            {
+                filePath = (filePath + "\\remember_me.txt");
+                string path = Convert.ToString(filePath);
+                try
+                {
+                    string text = System.IO.File.ReadAllText(path);
+                    string username = text.Replace("Username : '", "");
+                    username = username.Split('\'')[0];
+                    username = username.Replace(" ", "");
+                    string password = text.Replace("Password : '", "").Replace("Username : '", "");
+                    password = password.Split(',')[1];
+                    int index = password.IndexOf('\'');
+                    if (index >= 0)
+                        password = password.Substring(0, index);
+                    password = password.Replace("'", "");
+                    password = password.Replace(" ", "");
+                    LogIn(username, password);
+                }
+                catch
+                {
+
+                }
+            }
         }
 
         private void log_in_Click(object sender, EventArgs e)
@@ -31,38 +99,7 @@ namespace WindowsFormsApp1
             }
             else
             {
-                connection.Open();
-                string selectQuery = "SELECT * FROM loginform.userinfo WHERE Username = '" + username.Text + "' AND Password = '" + password.Text + "';";
-                command = new MySqlCommand(selectQuery, connection);
-                mdr = command.ExecuteReader();
-                if (mdr.Read())
-                {
-                    string MyConnection2 = "datasource=localhost;port=3306;username=root;password=";
-                    string Query = "update loginform.userinfo set LastLogin='" + "' where Username='" + this.password.Text + "';";
-                    MySqlConnection MyConn2 = new MySqlConnection(MyConnection2);
-                    MySqlCommand MyCommand2 = new MySqlCommand(Query, MyConn2);
-                    MySqlDataReader MyReader2;
-                    MyConn2.Open();
-                    MyReader2 = MyCommand2.ExecuteReader();
-                    while (MyReader2.Read())
-                    { 
-                    }
-                    MyConn2.Close();
-                    MessageBox.Show("Login Successful!");
-                    this.Hide();
-
-                    // now get data about user, access level and chose the next form accordingly
-
-                    // by default, the users arent given administrator powers
-                    // admins can make new admins, delete, update, create
-
-                    // regular acconts can only read
-                }
-                else
-                {
-                    MessageBox.Show("Login information is incorrect. Try again.");
-                }
-                connection.Close();
+                LogIn(username.Text, password.Text);
             }
         }
 

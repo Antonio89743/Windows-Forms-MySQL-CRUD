@@ -57,7 +57,12 @@ namespace WindowsFormsApp1
             }
             if (string.IsNullOrEmpty(password.Text) || string.IsNullOrEmpty(confirm_password.Text) || string.IsNullOrEmpty(username.Text))
             {
-                MessageBox.Show("Please fill out all information!", "Error");
+                MessageBox.Show("Please fill out all information!");
+                return;
+            }
+            if (password.Text.Contains("'") || password.Text.Contains(" "))
+            {
+                MessageBox.Show("Password cannot contain spaces or single quotation marks!", "Try Again.");
                 return;
             }
             else

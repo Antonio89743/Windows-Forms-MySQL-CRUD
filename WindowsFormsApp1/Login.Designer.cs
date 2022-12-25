@@ -36,6 +36,7 @@ namespace WindowsFormsApp1
             this.log_in = new System.Windows.Forms.Button();
             this.register_button = new System.Windows.Forms.Button();
             this.show_password = new System.Windows.Forms.Button();
+            this.remember_me = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // username
@@ -92,20 +93,31 @@ namespace WindowsFormsApp1
             // 
             // show_password
             // 
-            this.show_password.Location = new System.Drawing.Point(586, 259);
+            this.show_password.Location = new System.Drawing.Point(586, 250);
             this.show_password.Name = "show_password";
-            this.show_password.Size = new System.Drawing.Size(75, 23);
+            this.show_password.Size = new System.Drawing.Size(75, 31);
             this.show_password.TabIndex = 6;
             this.show_password.Text = "Show";
             this.show_password.UseVisualStyleBackColor = true;
             this.show_password.MouseEnter += new System.EventHandler(this.show_password_MouseEnter);
             this.show_password.MouseLeave += new System.EventHandler(this.show_password_MouseLeave);
             // 
+            // remember_me
+            // 
+            this.remember_me.AutoSize = true;
+            this.remember_me.Location = new System.Drawing.Point(215, 314);
+            this.remember_me.Name = "remember_me";
+            this.remember_me.Size = new System.Drawing.Size(122, 21);
+            this.remember_me.TabIndex = 7;
+            this.remember_me.Text = "Remember Me";
+            this.remember_me.UseVisualStyleBackColor = true;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(765, 602);
+            this.Controls.Add(this.remember_me);
             this.Controls.Add(this.show_password);
             this.Controls.Add(this.register_button);
             this.Controls.Add(this.log_in);
@@ -129,6 +141,7 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Button log_in;
         private System.Windows.Forms.Button register_button;
         private System.Windows.Forms.Button show_password;
+        private System.Windows.Forms.CheckBox remember_me;
     }
 }
 

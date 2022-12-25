@@ -113,9 +113,9 @@ namespace WindowsFormsApp1
             // 
             // show
             // 
-            this.show.Location = new System.Drawing.Point(454, 248);
+            this.show.Location = new System.Drawing.Point(452, 242);
             this.show.Name = "show";
-            this.show.Size = new System.Drawing.Size(75, 23);
+            this.show.Size = new System.Drawing.Size(75, 36);
             this.show.TabIndex = 8;
             this.show.Text = "Show";
             this.show.UseVisualStyleBackColor = true;
