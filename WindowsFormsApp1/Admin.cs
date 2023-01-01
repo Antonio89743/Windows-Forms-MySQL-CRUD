@@ -49,7 +49,7 @@ namespace WindowsFormsApp1
 
         private void Admin_Load(object sender, EventArgs e)
         {
-
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void bindingNavigator1_RefreshItems(object sender, EventArgs e)
@@ -74,6 +74,24 @@ namespace WindowsFormsApp1
                     DataTable data_table = new DataTable();
                     data_adapter.Fill(data_table);
                     dataGridView1.DataSource = data_table;
+                    foreach (DataGridViewColumn col in dataGridView1.Columns)
+                    {
+                        col.DisplayIndex = col.Index;
+                    }
+                }
+                try
+                {
+                    MySqlConnection connection = new MySqlConnection(connection_string);
+                    connection.Open();
+                    MySqlCommand tally_result_command = new MySqlCommand("select sum(Points) from project_db." + table_picker.Text.ToString(), connection);
+                    int tally_result = Convert.ToInt32(tally_result_command.ExecuteScalar().ToString());
+                    connection.Close();
+                    total_points.Text = "Total Points: " + tally_result.ToString();
+                        
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
             catch
@@ -99,6 +117,55 @@ namespace WindowsFormsApp1
             this.Hide();
             Login frm4 = new Login();
             frm4.ShowDialog();
+        }
+
+        private void toolStripComboBox1_TextChanged(object sender, EventArgs e)
+        {
+            load_data_grid_view();
+        }
+
+        private void account_manager_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            AccountManager account_manager_form = new AccountManager();
+            account_manager_form.ShowDialog();
+        }
+
+        private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // drop selected row context menu
+            if (e.ColumnIndex != -1 && e.RowIndex != -1 && e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                DataGridViewCell c = (sender as DataGridView)[e.ColumnIndex, e.RowIndex];
+                if (!c.Selected)
+                { 
+                    c.DataGridView.ClearSelection();
+                    c.DataGridView.CurrentCell = c;
+                    c.Selected = true;
+                }
+            }
+
+            //private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
+
+            //if (e.Button == MouseButtons.Right)
+            //{
+            //    ContextMenu m = new ContextMenu();
+            //    m.MenuItems.Add(new MenuItem("Cut"));
+            //    m.MenuItems.Add(new MenuItem("Copy"));
+            //    m.MenuItems.Add(new MenuItem("Paste"));
+
+            //    int currentMouseOverRow = dataGridView1.HitTest(e.X, e.Y).RowIndex;
+
+            //    if (currentMouseOverRow >= 0)
+            //    {
+            //        m.MenuItems.Add(new MenuItem(string.Format("Do something to row {0}", currentMouseOverRow.ToString())));
+            //    }
+
+            //    m.Show(dataGridView1, new Point(e.X, e.Y));
+
+            //}
+
+
         }
     }
 }

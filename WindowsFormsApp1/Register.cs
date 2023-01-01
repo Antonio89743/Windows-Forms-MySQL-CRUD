@@ -23,7 +23,7 @@ namespace WindowsFormsApp1
 
         private void register_form_Load(object sender, EventArgs e)
         {
-
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void label3_Click(object sender, EventArgs e)

@@ -28,37 +28,44 @@ namespace WindowsFormsApp1
         }
         private void LogIn(string username, string password)
         {
-            connection.Open();
-            string selectQuery = "SELECT * FROM loginform.userinfo WHERE Username = '" + username + "' AND Password = '" + password + "';";
-            command = new MySqlCommand(selectQuery, connection);
-            mdr = command.ExecuteReader();
-            if (mdr.Read())
+            try
             {
-                string account_type = (mdr.GetString("Type"));
-                if (account_type == "Regular")
+                connection.Open();
+                string selectQuery = "SELECT * FROM loginform.userinfo WHERE Username = '" + username + "' AND Password = '" + password + "';";
+                command = new MySqlCommand(selectQuery, connection);
+                mdr = command.ExecuteReader();
+                if (mdr.Read())
                 {
-                    this.Hide();
-                    Regular regular = new Regular();
-                    regular.ShowDialog();
+                    string account_type = (mdr.GetString("Type"));
+                    if (account_type == "Regular")
+                    {
+                        this.Hide();
+                        Regular regular = new Regular();
+                        regular.ShowDialog();
+                    }
+                    else if (account_type == "Privileged")
+                    {
+                        this.Hide();
+                        Privileged privileged = new Privileged();
+                        privileged.ShowDialog();
+                    }
+                    else if (account_type == "Admin")
+                    {
+                        this.Hide();
+                        Admin admin = new Admin();
+                        admin.ShowDialog();
+                    }
                 }
-                else if (account_type == "Privileged")
+                else
                 {
-                    this.Hide();
-                    Privileged privileged = new Privileged();
-                    privileged.ShowDialog();
+                    MessageBox.Show("Login information is incorrect. Try again.");
                 }
-                else if (account_type == "Admin")
-                {
-                    this.Hide();
-                    Admin admin = new Admin();
-                    admin.ShowDialog();
-                }
+                connection.Close();
             }
-            else
+            catch
             {
-                MessageBox.Show("Login information is incorrect. Try again.");
+                MessageBox.Show("Server connection failed. Check if Xampp's Apache and MySQL modules are working correctly.");
             }
-            connection.Close();
         }
 
         private void CheckIfUserRemembered()
@@ -71,7 +78,8 @@ namespace WindowsFormsApp1
                 string path = Convert.ToString(filePath);
                 try
                 {
-                    string text = System.IO.File.ReadAllText(path);
+                    string encoded_text = System.IO.File.ReadAllText(path);
+                    string text = Encoding.Unicode.GetString(Convert.FromBase64String(encoded_text));
                     string username = text.Replace("Username : '", "");
                     username = username.Split('\'')[0];
                     username = username.Replace(" ", "");
@@ -109,7 +117,8 @@ namespace WindowsFormsApp1
                     string path = Convert.ToString(filePath);
                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(path, false))
                     {
-                        file.WriteLine("Username : '" + username.Text + "', Password : '" + password.Text + "'");
+                        string save_text = "Username : '" + username.Text + "', Password : '" + password.Text + "'";
+                        file.WriteLine(Convert.ToBase64String(Encoding.Unicode.GetBytes(save_text)));
                     }
                 }
                 LogIn(username.Text, password.Text);
@@ -131,6 +140,11 @@ namespace WindowsFormsApp1
         private void show_password_MouseLeave(object sender, EventArgs e)
         {
             password.UseSystemPasswordChar = true;
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
     }
 }

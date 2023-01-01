@@ -40,9 +40,9 @@ namespace WindowsFormsApp1
                 table_picker.DisplayMember = "TABLE_NAME";
                 table_picker.SelectedText.ToString();
             }
-            catch (Exception ex)
+            catch (Exception error)    
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(error.Message);
             }
             dbConnection.Close();
         }
@@ -59,6 +59,24 @@ namespace WindowsFormsApp1
                     DataTable data_table = new DataTable();
                     data_adapter.Fill(data_table);
                     dataGridView1.DataSource = data_table;
+                    foreach (DataGridViewColumn col in dataGridView1.Columns)
+                    {
+                        col.DisplayIndex = col.Index;
+                    }
+                }
+                try
+                {
+                    MySqlConnection connection = new MySqlConnection(connection_string);
+                    connection.Open();
+                    MySqlCommand tally_result_command = new MySqlCommand("select sum(Points) from project_db." + table_picker.Text.ToString(), connection);
+                    int tally_result = Convert.ToInt32(tally_result_command.ExecuteScalar().ToString());
+                    connection.Close();
+                    total_points.Text = "Total Points: " + tally_result.ToString();
+                        
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
             catch
@@ -67,22 +85,12 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void table_picker_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             load_data_grid_view();
         }
 
         private void settings_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Regular_Load(object sender, EventArgs e)
         {
 
         }
@@ -104,6 +112,11 @@ namespace WindowsFormsApp1
             this.Hide();
             Login frm4 = new Login();
             frm4.ShowDialog();
+        }
+
+        private void Regular_Load(object sender, EventArgs e)
+        {
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
     }
 }
