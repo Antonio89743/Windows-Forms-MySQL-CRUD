@@ -50,6 +50,7 @@ namespace WindowsFormsApp1
             this.settings = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.total_points = new System.Windows.Forms.Label();
+            this.graph_view = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
@@ -236,11 +237,22 @@ namespace WindowsFormsApp1
             this.total_points.TabIndex = 7;
             this.total_points.Text = "label3";
             // 
+            // graph_view
+            // 
+            this.graph_view.Location = new System.Drawing.Point(655, 31);
+            this.graph_view.Name = "graph_view";
+            this.graph_view.Size = new System.Drawing.Size(133, 23);
+            this.graph_view.TabIndex = 8;
+            this.graph_view.Text = "Graph View";
+            this.graph_view.UseVisualStyleBackColor = true;
+            this.graph_view.Click += new System.EventHandler(this.graph_view_Click);
+            // 
             // Privileged
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.graph_view);
             this.Controls.Add(this.total_points);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.settings);
@@ -283,5 +295,6 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Button settings;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label total_points;
+        private System.Windows.Forms.Button graph_view;
     }
 }
