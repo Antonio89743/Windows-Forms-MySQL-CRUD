@@ -167,5 +167,11 @@ namespace WindowsFormsApp1
 
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GraphView frm4 = new GraphView();
+            frm4.ShowDialog();
+        }
     }
 }
