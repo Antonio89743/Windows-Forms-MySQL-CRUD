@@ -71,8 +71,7 @@ namespace WindowsFormsApp1
                     MySqlCommand tally_result_command = new MySqlCommand("select sum(Points) from project_db." + table_picker.Text.ToString(), connection);
                     int tally_result = Convert.ToInt32(tally_result_command.ExecuteScalar().ToString());
                     connection.Close();
-                    total_points.Text = "Total Points: " + tally_result.ToString();
-                        
+                    total_points.Text = "Total Points: " + tally_result.ToString();    
                 }
                 catch (Exception ex)
                 {
