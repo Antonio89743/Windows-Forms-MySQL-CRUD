@@ -177,39 +177,53 @@ namespace WindowsFormsApp1
 
         private void cut_cell_data(object sender, EventArgs e)
         {
-            Clipboard.SetText(Globals.selectedRow.Cells[Globals.column_index].Value.ToString());
-            // delete content from datagridview and from mysql db
+            if (Globals.selectedRow.Cells[Globals.column_index].Value.ToString() != "")
+            {
+                Clipboard.SetText(Globals.selectedRow.Cells[Globals.column_index].Value.ToString());
+                // delete content from datagridview and from mysql db
+            }
         }
 
         private void copy_cell_data(object sender, EventArgs e)
         {
-            Clipboard.SetText(Globals.selectedRow.Cells[Globals.column_index].Value.ToString());
+            if (Globals.selectedRow.Cells[Globals.column_index].Value.ToString() != "")
+            {
+                Clipboard.SetText(Globals.selectedRow.Cells[Globals.column_index].Value.ToString());
+            }     
         }
 
         private void paste_cell_data(object sender, EventArgs e)
         {
             
         }
+
         private void delete_row(object sender, EventArgs e)
         {
             string connection_string = @"datasource=localhost;port=3306;username=root;password=";
-            try
+            if (Globals.id_of_selected_row.ToString() != "")
             {
-                using (MySqlConnection conn = new MySqlConnection(connection_string))
+                try
                 {
-                    MySqlCommand cmd = new MySqlCommand("delete from project_db." + table_picker.Text.ToString() + " where ID=" + Globals.id_of_selected_row, conn);
-                    cmd.Parameters.AddWithValue("@Table", table_picker.Text.ToString());
-                    cmd.Parameters.AddWithValue("@ID_of_selected_row", Globals.id_of_selected_row);
-                    cmd.CommandTimeout = 1000;
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                    load_data_grid_view();
+                    using (MySqlConnection conn = new MySqlConnection(connection_string))
+                    {
+                        MySqlCommand cmd = new MySqlCommand("delete from project_db." + table_picker.Text.ToString() + " where ID=" + Globals.id_of_selected_row, conn);
+                        cmd.Parameters.AddWithValue("@Table", table_picker.Text.ToString());
+                        cmd.Parameters.AddWithValue("@ID_of_selected_row", Globals.id_of_selected_row);
+                        cmd.CommandTimeout = 1000;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        load_data_grid_view();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Row is empty. Pick a row with a valid entry");
             }
         }
     }

@@ -89,7 +89,7 @@ namespace WindowsFormsApp1
                         MessageBox.Show(error.Message);
                     }
                     MessageBox.Show("Account Successfully Registered!");
-                }
+                } 
                 connection.Close();
             }
         }
