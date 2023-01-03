@@ -79,9 +79,14 @@ namespace WindowsFormsApp1
                 {
                     conn.Open();
                     MySqlDataAdapter data_adapter = new MySqlDataAdapter("select * from " + table_picker.Text.ToString(), conn);
+                    DataSet data_set = new DataSet();
                     DataTable data_table = new DataTable();
-                    data_adapter.Fill(data_table);
-                    dataGridView1.DataSource = data_table;
+                    data_adapter.Fill(data_table); 
+                    data_adapter.Fill(data_set);       
+                    BindingSource bindingSource1 = new BindingSource();
+                    bindingSource1.DataSource = data_table;
+                    bindingNavigator1.BindingSource = bindingSource1;
+                    dataGridView1.DataSource = bindingSource1;
                     foreach (DataGridViewColumn col in dataGridView1.Columns)
                     {
                         col.DisplayIndex = col.Index;
@@ -92,7 +97,7 @@ namespace WindowsFormsApp1
                     MySqlConnection connection = new MySqlConnection(connection_string);
                     MySqlCommand tally_result_command = new MySqlCommand("select sum(Points) from project_db." + table_picker.Text.ToString(), connection);
                     tally_result_command.CommandTimeout = 1000;
-                    connection.Open();
+                    connection.Open(); 
                     var reader = tally_result_command.ExecuteScalar();
                     if (reader.ToString() == "")
                     {
@@ -207,8 +212,6 @@ namespace WindowsFormsApp1
                     using (MySqlConnection conn = new MySqlConnection(connection_string))
                     {
                         MySqlCommand cmd = new MySqlCommand("delete from project_db." + table_picker.Text.ToString() + " where ID=" + Globals.id_of_selected_row, conn);
-                        cmd.Parameters.AddWithValue("@Table", table_picker.Text.ToString());
-                        cmd.Parameters.AddWithValue("@ID_of_selected_row", Globals.id_of_selected_row);
                         cmd.CommandTimeout = 1000;
                         conn.Open();
                         cmd.ExecuteNonQuery();
@@ -225,6 +228,74 @@ namespace WindowsFormsApp1
             {
                 MessageBox.Show("Row is empty. Pick a row with a valid entry");
             }
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            string connection_string = @"datasource=localhost;port=3306;username=root;password=";
+            var data_input = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            var data_input_column_name_string = dataGridView1.Columns[e.ColumnIndex].Name.ToString();
+            if (data_input_column_name_string == "ID")
+            {
+                int send_var = int.Parse(data_input);
+                try
+                {
+                    using (MySqlConnection conn = new MySqlConnection(connection_string))
+                    {
+                        MySqlCommand cmd = new MySqlCommand("replace into project_db." + table_picker.Text.ToString() + "(" + data_input_column_name_string + ") values(" + send_var + ")", conn);
+                        cmd.CommandTimeout = 1000;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        load_data_grid_view();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else if (data_input_column_name_string == "Points")
+            {
+                float send_var = float.Parse(data_input);
+                try
+                {
+                    using (MySqlConnection conn = new MySqlConnection(connection_string))
+                    {
+                        MySqlCommand cmd = new MySqlCommand("replace into project_db." + table_picker.Text.ToString() + "(" + data_input_column_name_string + ") values(" + send_var + ")", conn);
+                        cmd.CommandTimeout = 1000;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        load_data_grid_view();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                string send_var = data_input;
+                try
+                {
+                    using (MySqlConnection conn = new MySqlConnection(connection_string))
+                    {
+                        MySqlCommand cmd = new MySqlCommand("replace into project_db." + table_picker.Text.ToString() + "(" + data_input_column_name_string + ") values(" + send_var + ")", conn);
+                        cmd.CommandTimeout = 1000;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        load_data_grid_view();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            load_data_grid_view();
         }
     }
 }
