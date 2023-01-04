@@ -203,5 +203,104 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Row is empty. Pick a row with a valid entry");
             }
         }
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            string connection_string = @"datasource=localhost;port=3306;username=root;password=";
+            var data_input = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            var data_input_column_name_string = dataGridView1.Columns[e.ColumnIndex].Name.ToString();
+            int? row_edited_id = null;
+            foreach (DataGridViewColumn column in this.dataGridView1.Columns)
+            {
+                try
+                {
+                    if (column.Name == "ID")
+                    {
+                        row_edited_id = Int16.Parse(dataGridView1.Rows[e.RowIndex].Cells[column.Index].Value.ToString());
+                    }
+                }
+                catch
+                {
+                }
+
+            }
+            if (data_input_column_name_string == "ID")
+            {
+                int send_var = int.Parse(data_input);
+                try
+                {
+                    using (MySqlConnection conn = new MySqlConnection(connection_string))
+                    {
+                        MySqlCommand cmd = new MySqlCommand("replace into project_db." + table_picker.Text.ToString() + "(" + data_input_column_name_string + ") values(" + send_var + ")", conn);
+                        cmd.CommandTimeout = 1000;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        load_data_grid_view();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else if (data_input_column_name_string == "Points")
+            {
+                float send_var = float.Parse(data_input);
+                try
+                {
+                    using (MySqlConnection conn = new MySqlConnection(connection_string))
+                    {
+                        MySqlCommand cmd;
+                        if (row_edited_id != null)
+                        {
+                            cmd = new MySqlCommand("update project_db." + table_picker.Text.ToString() + " set " + data_input_column_name_string + "=" + send_var + " where ID=" + row_edited_id, conn);
+                        }
+                        else
+                        {
+                            cmd = new MySqlCommand("insert into project_db." + table_picker.Text.ToString() + "(" + data_input_column_name_string + ") values('" + send_var + "')", conn);
+                        }
+                        cmd.CommandTimeout = 1000;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        load_data_grid_view();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                string send_var = data_input;
+                try
+                {
+                    using (MySqlConnection conn = new MySqlConnection(connection_string))
+                    {
+                        MySqlCommand cmd;
+                        if (row_edited_id != null)
+                        {
+                            cmd = new MySqlCommand("update project_db." + table_picker.Text.ToString() + " set " + data_input_column_name_string + "='" + send_var + "' where ID=" + row_edited_id, conn);
+                        }
+                        else
+                        {
+                            cmd = new MySqlCommand("insert into project_db." + table_picker.Text.ToString() + "(" + data_input_column_name_string + ") values('" + send_var + "')", conn);
+                        }
+                        cmd.CommandTimeout = 1000;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        load_data_grid_view();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            load_data_grid_view();
+        }
     }
 }
+
