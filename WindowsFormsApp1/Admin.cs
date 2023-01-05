@@ -153,7 +153,6 @@ namespace WindowsFormsApp1
 
         private void account_manager_Click(object sender, EventArgs e)
         {
-            this.Hide();
             AccountManager account_manager_form = new AccountManager(log_in_info, log_in_password);
             account_manager_form.ShowDialog();
         }

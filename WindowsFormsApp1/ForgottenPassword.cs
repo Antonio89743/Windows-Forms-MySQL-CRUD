@@ -44,6 +44,7 @@ namespace WindowsFormsApp1
                     using (var dr1 = cmd1.ExecuteReader())
                         if (email_exists = dr1.HasRows)
                         {
+                            connection.Close();
                             send_email();
                         }
                         else
@@ -71,8 +72,8 @@ namespace WindowsFormsApp1
                 MailMessage mail = new MailMessage("project_db_connect_mysql@outlook.com", textBox1.Text);
                 mail.Subject = "C# Forms Desktop App Forgotten Password";
                 string new_password = generate_password();
-                update_password_db(new_password);
-                mail.Body = "<h1>Your new password is: " + new_password + "</h1>";
+                update_password_db(new_password, textBox1.Text);
+                mail.Body = "<p>Your new password is: " + new_password + "<p>";
                 mail.IsBodyHtml = true;
                 client.Send(mail);
                 MessageBox.Show("Message sent succesfully. Check your email.");
@@ -83,15 +84,27 @@ namespace WindowsFormsApp1
                 MessageBox.Show(error.Message);
             }
         }
-        private void update_password_db(string new_password)
+        private void update_password_db(string new_password, string email)
         {
-
+            try
+            {
+                connection.Open();
+                MySqlCommand cmd;
+                cmd = new MySqlCommand("update loginform.userinfo set Password='" + new_password + "' where Email='" + email +"'", connection);
+                cmd.CommandTimeout = 1000;
+                cmd.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message);
+            }
         }
 
         private string generate_password()
         {
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var stringChars = new char[8];
+            var stringChars = new char[16];
             var random = new Random();
             for (int i = 0; i < stringChars.Length; i++)
             {
