@@ -175,6 +175,24 @@
     <Compile Include="Admin.Designer.cs">
       <DependentUpon>Admin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Change Password.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Change Password.Designer.cs">
+      <DependentUpon>Change Password.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChangeEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeEmail.Designer.cs">
+      <DependentUpon>ChangeEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChangeUsername.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeUsername.Designer.cs">
+      <DependentUpon>ChangeUsername.cs</DependentUpon>
+    </Compile>
     <Compile Include="ForgottenPassword.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -230,6 +248,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin.resx">
       <DependentUpon>Admin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Change Password.resx">
+      <DependentUpon>Change Password.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangeEmail.resx">
+      <DependentUpon>ChangeEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangeUsername.resx">
+      <DependentUpon>ChangeUsername.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ForgottenPassword.resx">
       <DependentUpon>ForgottenPassword.cs</DependentUpon>

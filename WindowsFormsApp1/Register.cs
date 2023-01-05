@@ -14,6 +14,7 @@ namespace WindowsFormsApp1
     public partial class register_form : Form
     {
         MySqlConnection connection = new MySqlConnection("datasource=localhost;port=3306;username=root;password=");
+
         public register_form()
         {
             InitializeComponent();
@@ -55,7 +56,7 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Password doesn't match! Try Again.");
                 return;
             }
-            if (string.IsNullOrEmpty(password.Text) || string.IsNullOrEmpty(confirm_password.Text) || string.IsNullOrEmpty(username.Text))
+            if (string.IsNullOrEmpty(password.Text) || string.IsNullOrEmpty(confirm_password.Text) || string.IsNullOrEmpty(username.Text) || string.IsNullOrEmpty(email.Text))
             {
                 MessageBox.Show("Please fill out all information!");
                 return;
@@ -72,7 +73,7 @@ namespace WindowsFormsApp1
             }
             if (email.Text.Contains("@") == false || email.Text.Contains(".") == false)
             {
-                MessageBox.Show("Email must contain and at sign and a period!", "Try Again.");
+                MessageBox.Show("Email must contain an at sign and a period!", "Try Again.");
                 return;
             }
             else

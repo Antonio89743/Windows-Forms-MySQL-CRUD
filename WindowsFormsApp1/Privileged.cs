@@ -34,6 +34,15 @@ namespace WindowsFormsApp1
             load_data_grid_view();
         }
 
+        public Privileged(string account, string password)
+        {
+            InitializeComponent();
+            FillTablePickerComboBox();
+            load_data_grid_view();
+            this.log_in_info = account;
+            this.log_in_password = password;
+        }
+
         private void FillTablePickerComboBox()
         {
             string myConnectionString = @"datasource=localhost;port=3306;username=root;password=";
@@ -103,7 +112,7 @@ namespace WindowsFormsApp1
 
         private void settings_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
+            Settings settings = new Settings(log_in_info, log_in_password);
             settings.ShowDialog();
         }
 

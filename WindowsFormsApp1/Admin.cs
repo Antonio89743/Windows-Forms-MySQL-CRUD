@@ -365,7 +365,7 @@ namespace WindowsFormsApp1
 
         private void settings_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
+            Settings settings = new Settings(log_in_info, log_in_password);
             settings.ShowDialog();
         }
     }
