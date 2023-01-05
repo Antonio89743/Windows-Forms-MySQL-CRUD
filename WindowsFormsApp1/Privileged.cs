@@ -23,6 +23,10 @@ namespace WindowsFormsApp1
             public static int row_index = 0;
             public static DataGridViewRow selectedRow = null;
         }
+
+        public string log_in_info { get; set; }
+        public string log_in_password { get; set; }
+
         public Privileged()
         {
             InitializeComponent();
@@ -99,7 +103,8 @@ namespace WindowsFormsApp1
 
         private void settings_Click(object sender, EventArgs e)
         {
-
+            Settings settings = new Settings();
+            settings.ShowDialog();
         }
 
         private void log_out_Click(object sender, EventArgs e)
@@ -301,6 +306,32 @@ namespace WindowsFormsApp1
             }
             load_data_grid_view();
         }
+
+        private void darkThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BackColor = Color.FromArgb(255, 48, 72, 112);
+            bindingNavigator1.BackColor = Color.FromArgb(255, 48, 72, 112);
+        }
+
+        private void lightThmeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BackColor = default(Color);
+            bindingNavigator1.BackColor = default(Color);
+        }
+
+        private void customBackColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog bgColor = new ColorDialog();
+            bgColor.ShowDialog();
+            this.BackColor = bgColor.Color;
+            bindingNavigator1.BackColor = bgColor.Color;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SQL_Console sql_console = new SQL_Console();
+            sql_console.ShowDialog();
+        }
     }
 }
-
+    

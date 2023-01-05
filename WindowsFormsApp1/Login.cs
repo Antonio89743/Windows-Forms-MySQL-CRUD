@@ -24,14 +24,15 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             CheckIfUserRemembered();
-            password.UseSystemPasswordChar = true;
+            password.UseSystemPasswordChar = true;      
         }
+
         private void LogIn(string username, string password)
         {
             try
             {
                 connection.Open();
-                string selectQuery = "SELECT * FROM loginform.userinfo WHERE Username = '" + username + "' AND Password = '" + password + "';";
+                string selectQuery = "SELECT * FROM loginform.userinfo WHERE (Username = '" + username + "' or Email = '" + username + "') AND Password = '" + password + "';";
                 command = new MySqlCommand(selectQuery, connection);
                 mdr = command.ExecuteReader();
                 if (mdr.Read())
@@ -41,18 +42,20 @@ namespace WindowsFormsApp1
                     {
                         this.Hide();
                         Regular regular = new Regular();
-                        regular.ShowDialog();
+                        regular.ShowDialog();                     
                     }
                     else if (account_type == "Privileged")
                     {
                         this.Hide();
                         Privileged privileged = new Privileged();
                         privileged.ShowDialog();
+                        privileged.log_in_info = username;
+                        privileged.log_in_password = password;
                     }
                     else if (account_type == "Admin")
                     {
                         this.Hide();
-                        Admin admin = new Admin();
+                        Admin admin = new Admin(username, password);
                         admin.ShowDialog();
                     }
                 }
@@ -145,6 +148,13 @@ namespace WindowsFormsApp1
         private void Login_Load(object sender, EventArgs e)
         {
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            ForgottenPassword forgotten_password = new ForgottenPassword();
+            forgotten_password.ShowDialog();
         }
     }
 }

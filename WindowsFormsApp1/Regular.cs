@@ -21,6 +21,7 @@ namespace WindowsFormsApp1
             InitializeComponent();
             FillTablePickerComboBox();
             load_data_grid_view();
+            dataGridView1.ReadOnly = true;
         }
 
         private void FillTablePickerComboBox()
@@ -31,7 +32,7 @@ namespace WindowsFormsApp1
             try
             {
                 sqlCmd.Connection = dbConnection;
-                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.CommandType = CommandType.Text; 
                 sqlCmd.CommandText = "use project_db; select * from information_schema.tables where table_schema = 'project_db';";
                 MySqlDataAdapter sqlDataAdap = new MySqlDataAdapter(sqlCmd);
                 DataTable dtRecord = new DataTable();
@@ -91,7 +92,8 @@ namespace WindowsFormsApp1
 
         private void settings_Click(object sender, EventArgs e)
         {
-
+            Settings settings = new Settings();
+            settings.ShowDialog();
         }
 
         private void log_out_Click(object sender, EventArgs e)

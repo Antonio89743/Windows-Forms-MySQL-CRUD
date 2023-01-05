@@ -21,6 +21,16 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
+        public AccountManager(string account, string password)
+        {
+            InitializeComponent();
+            this.log_in_info = account;
+            this.log_in_password = password;
+        }
+
+        public string log_in_info { get; set; }
+        public string log_in_password { get; set; }
+
         private void AccountManager_Load(object sender, EventArgs e)
         {
             load_accounts();
@@ -32,7 +42,7 @@ namespace WindowsFormsApp1
             string myConnectionString = @"datasource=localhost;port=3306;username=root;password=";
             using (MySqlConnection conn = new MySqlConnection(myConnectionString))
             {
-                string CommandText = "SELECT * FROM loginform.userinfo";
+                string CommandText = "SELECT * FROM loginform.userinfo where Password not in ('" + log_in_password + "') and (Username not in ('" + log_in_info + "') or Email not in ('" + log_in_info + "'))";
                 using (MySqlCommand cmd = new MySqlCommand(CommandText, conn))
                 {
                     conn.Open();

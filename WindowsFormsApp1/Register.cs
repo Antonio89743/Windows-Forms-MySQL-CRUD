@@ -65,19 +65,33 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Password cannot contain spaces or single quotation marks!", "Try Again.");
                 return;
             }
+            if (email.Text.Contains("'") || email.Text.Contains(" "))
+            {
+                MessageBox.Show("Email cannot contain spaces or single quotation marks!", "Try Again.");
+                return;
+            }
+            if (email.Text.Contains("@") == false || email.Text.Contains(".") == false)
+            {
+                MessageBox.Show("Email must contain and at sign and a period!", "Try Again.");
+                return;
+            }
             else
             {
                 connection.Open();
                 MySqlCommand cmd1 = new MySqlCommand("SELECT * FROM loginform.userinfo WHERE Username = @UserName", connection),
                 cmd2 = new MySqlCommand("SELECT * FROM loginform.userinfo WHERE Email = @UserEmail", connection);
                 cmd1.Parameters.AddWithValue("@Username", username.Text);
-                bool userExists = false;
+                cmd2.Parameters.AddWithValue("@UserEmail", email.Text);
+                bool username_exists = false;
+                bool email_exists = false;
                 using (var dr1 = cmd1.ExecuteReader())
-                    if (userExists = dr1.HasRows) MessageBox.Show("Username not available!");
-                if (!(userExists))
+                    if (username_exists = dr1.HasRows) MessageBox.Show("Username not available!");
+                using (var dr1 = cmd2.ExecuteReader())
+                    if (email_exists = dr1.HasRows) MessageBox.Show("Email not available!");
+                if (!(username_exists) && !(email_exists))
                 {
                     DateTimePicker dateTimePicker1 = new DateTimePicker();
-                    string iquery = "INSERT INTO loginform.userinfo(`ID`, `Type`, `Username`, `Password`) VALUES (NULL, '" + "Regular" + "', '" + username.Text + "', '" + password.Text + "')";
+                    string iquery = "INSERT INTO loginform.userinfo(`ID`, `Type`, `Username`, `Password`, `Email`) VALUES (NULL, '" + "Regular" + "', '" + username.Text + "', '" + password.Text + "', '" + email.Text + "')";
                     MySqlCommand commandDatabase = new MySqlCommand(iquery, connection);
                     commandDatabase.CommandTimeout = 60;
                     try
@@ -89,7 +103,9 @@ namespace WindowsFormsApp1
                         MessageBox.Show(error.Message);
                     }
                     MessageBox.Show("Account Successfully Registered!");
-                } 
+                    this.Hide();
+                    Login frm4 = new Login();
+                }
                 connection.Close();
             }
         }

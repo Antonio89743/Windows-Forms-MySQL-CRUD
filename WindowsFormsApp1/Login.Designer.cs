@@ -38,6 +38,7 @@ namespace WindowsFormsApp1
             this.register_button = new System.Windows.Forms.Button();
             this.show_password = new System.Windows.Forms.Button();
             this.remember_me = new System.Windows.Forms.CheckBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // username
@@ -57,16 +58,16 @@ namespace WindowsFormsApp1
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(212, 161);
+            this.label1.Location = new System.Drawing.Point(188, 161);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 17);
+            this.label1.Size = new System.Drawing.Size(136, 17);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Username: ";
+            this.label1.Text = "Username or Email: ";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(212, 263);
+            this.label2.Location = new System.Drawing.Point(188, 264);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 17);
             this.label2.TabIndex = 3;
@@ -74,7 +75,7 @@ namespace WindowsFormsApp1
             // 
             // log_in
             // 
-            this.log_in.Location = new System.Drawing.Point(215, 361);
+            this.log_in.Location = new System.Drawing.Point(204, 404);
             this.log_in.Name = "log_in";
             this.log_in.Size = new System.Drawing.Size(109, 44);
             this.log_in.TabIndex = 4;
@@ -84,7 +85,7 @@ namespace WindowsFormsApp1
             // 
             // register_button
             // 
-            this.register_button.Location = new System.Drawing.Point(415, 361);
+            this.register_button.Location = new System.Drawing.Point(415, 403);
             this.register_button.Name = "register_button";
             this.register_button.Size = new System.Drawing.Size(109, 45);
             this.register_button.TabIndex = 5;
@@ -106,18 +107,30 @@ namespace WindowsFormsApp1
             // remember_me
             // 
             this.remember_me.AutoSize = true;
-            this.remember_me.Location = new System.Drawing.Point(215, 314);
+            this.remember_me.Location = new System.Drawing.Point(204, 340);
             this.remember_me.Name = "remember_me";
             this.remember_me.Size = new System.Drawing.Size(122, 21);
             this.remember_me.TabIndex = 7;
             this.remember_me.Text = "Remember Me";
             this.remember_me.UseVisualStyleBackColor = true;
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(399, 340);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(142, 17);
+            this.linkLabel1.TabIndex = 8;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Forgotten Password?";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(765, 602);
+            this.ClientSize = new System.Drawing.Size(765, 571);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.remember_me);
             this.Controls.Add(this.show_password);
             this.Controls.Add(this.register_button);
@@ -145,6 +158,7 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Button register_button;
         private System.Windows.Forms.Button show_password;
         private System.Windows.Forms.CheckBox remember_me;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 

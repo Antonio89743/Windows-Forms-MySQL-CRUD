@@ -38,11 +38,13 @@ namespace WindowsFormsApp1
             this.confirm_password = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.show = new System.Windows.Forms.Button();
+            this.email = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // register
             // 
-            this.register.Location = new System.Drawing.Point(216, 382);
+            this.register.Location = new System.Drawing.Point(254, 444);
             this.register.Name = "register";
             this.register.Size = new System.Drawing.Size(128, 58);
             this.register.TabIndex = 0;
@@ -54,20 +56,20 @@ namespace WindowsFormsApp1
             // 
             this.username.Location = new System.Drawing.Point(254, 136);
             this.username.Name = "username";
-            this.username.Size = new System.Drawing.Size(153, 22);
+            this.username.Size = new System.Drawing.Size(263, 22);
             this.username.TabIndex = 1;
             // 
             // password
             // 
             this.password.Location = new System.Drawing.Point(254, 208);
             this.password.Name = "password";
-            this.password.Size = new System.Drawing.Size(153, 22);
+            this.password.Size = new System.Drawing.Size(263, 22);
             this.password.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(99, 136);
+            this.label1.Location = new System.Drawing.Point(114, 136);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(81, 17);
             this.label1.TabIndex = 3;
@@ -77,7 +79,7 @@ namespace WindowsFormsApp1
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(99, 208);
+            this.label2.Location = new System.Drawing.Point(114, 208);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 17);
             this.label2.TabIndex = 4;
@@ -98,13 +100,13 @@ namespace WindowsFormsApp1
             // 
             this.confirm_password.Location = new System.Drawing.Point(254, 279);
             this.confirm_password.Name = "confirm_password";
-            this.confirm_password.Size = new System.Drawing.Size(153, 22);
+            this.confirm_password.Size = new System.Drawing.Size(263, 22);
             this.confirm_password.TabIndex = 6;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(99, 279);
+            this.label3.Location = new System.Drawing.Point(114, 279);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(125, 17);
             this.label3.TabIndex = 7;
@@ -113,7 +115,7 @@ namespace WindowsFormsApp1
             // 
             // show
             // 
-            this.show.Location = new System.Drawing.Point(452, 242);
+            this.show.Location = new System.Drawing.Point(548, 239);
             this.show.Name = "show";
             this.show.Size = new System.Drawing.Size(75, 36);
             this.show.TabIndex = 8;
@@ -122,11 +124,29 @@ namespace WindowsFormsApp1
             this.show.MouseEnter += new System.EventHandler(this.show_MouseEnter);
             this.show.MouseLeave += new System.EventHandler(this.show_MouseLeave);
             // 
+            // email
+            // 
+            this.email.Location = new System.Drawing.Point(254, 346);
+            this.email.Name = "email";
+            this.email.Size = new System.Drawing.Size(263, 22);
+            this.email.TabIndex = 9;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(114, 349);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 17);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Email:";
+            // 
             // register_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(579, 496);
+            this.ClientSize = new System.Drawing.Size(646, 534);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.email);
             this.Controls.Add(this.show);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.confirm_password);
@@ -155,5 +175,7 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.TextBox confirm_password;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button show;
+        private System.Windows.Forms.TextBox email;
+        private System.Windows.Forms.Label label4;
     }
 }

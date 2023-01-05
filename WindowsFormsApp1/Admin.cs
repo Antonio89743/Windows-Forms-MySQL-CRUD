@@ -30,6 +30,18 @@ namespace WindowsFormsApp1
             FillTablePickerComboBox();
             load_data_grid_view();
         }
+        public Admin(string account, string password)
+        {
+            InitializeComponent();
+            FillTablePickerComboBox();
+            load_data_grid_view();
+            this.log_in_info = account;
+            this.log_in_password = password;
+        }
+
+        public string log_in_info { get; set; }
+
+        public string log_in_password { get; set; }
 
         private void FillTablePickerComboBox()
         {
@@ -58,11 +70,6 @@ namespace WindowsFormsApp1
         private void Admin_Load(object sender, EventArgs e)
         {
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-        }
-
-        private void bindingNavigator1_RefreshItems(object sender, EventArgs e)
-        {
-
         }
 
         private void table_picker_SelectedIndexChanged(object sender, EventArgs e)
@@ -147,7 +154,7 @@ namespace WindowsFormsApp1
         private void account_manager_Click(object sender, EventArgs e)
         {
             this.Hide();
-            AccountManager account_manager_form = new AccountManager();
+            AccountManager account_manager_form = new AccountManager(log_in_info, log_in_password);
             account_manager_form.ShowDialog();
         }
 
@@ -329,6 +336,38 @@ namespace WindowsFormsApp1
                 }
             }
             load_data_grid_view();
+        }
+
+        private void darkThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BackColor = Color.FromArgb(255, 48, 72, 112);
+            bindingNavigator1.BackColor = Color.FromArgb(255, 48, 72, 112);
+        }
+
+        private void lToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BackColor = default(Color);
+            bindingNavigator1.BackColor = default(Color);
+        }
+
+        private void changeThemeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog bgColor = new ColorDialog();
+            bgColor.ShowDialog();
+            this.BackColor = bgColor.Color;
+            bindingNavigator1.BackColor = bgColor.Color;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SQL_Console sql_console = new SQL_Console();
+            sql_console.ShowDialog();
+        }
+
+        private void settings_Click(object sender, EventArgs e)
+        {
+            Settings settings = new Settings();
+            settings.ShowDialog();
         }
     }
 }
