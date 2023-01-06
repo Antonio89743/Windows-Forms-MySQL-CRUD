@@ -113,5 +113,10 @@ namespace WindowsFormsApp1
             var finalString = new String(stringChars);
             return finalString;
         }
+
+        private void ForgottenPassword_Load(object sender, EventArgs e)
+        {
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+        }
     }
 }

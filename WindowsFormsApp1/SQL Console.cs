@@ -46,5 +46,10 @@ namespace WindowsFormsApp1
                 }
             }
         }
+
+        private void SQL_Console_Load(object sender, EventArgs e)
+        {
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+        }
     }
 }

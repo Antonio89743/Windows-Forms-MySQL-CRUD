@@ -172,7 +172,7 @@ namespace WindowsFormsApp1
             if (Globals.selectedRow.Cells[Globals.column_index].Value.ToString() != "")
             {
                 Clipboard.SetText(Globals.selectedRow.Cells[Globals.column_index].Value.ToString());
-                // delete content from datagridview and from mysql db
+                Globals.selectedRow.Cells[Globals.column_index].Value = "";
             }
         }
 
@@ -186,8 +186,9 @@ namespace WindowsFormsApp1
 
         private void paste_cell_data(object sender, EventArgs e)
         {
-
+            Globals.selectedRow.Cells[Globals.column_index].Value = Clipboard.GetText();
         }
+
         private void delete_row(object sender, EventArgs e)
         {
             string connection_string = @"datasource=localhost;port=3306;username=root;password=";

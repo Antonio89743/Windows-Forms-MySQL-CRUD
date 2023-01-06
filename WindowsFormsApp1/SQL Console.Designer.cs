@@ -72,6 +72,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.richTextBox1);
             this.Name = "SQL_Console";
             this.Text = "SQL_Console";
+            this.Load += new System.EventHandler(this.SQL_Console_Load);
             this.ResumeLayout(false);
 
         }

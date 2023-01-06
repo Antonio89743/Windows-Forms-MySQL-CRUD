@@ -70,6 +70,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.textBox1);
             this.Name = "ForgottenPassword";
             this.Text = "ForgottenPassword";
+            this.Load += new System.EventHandler(this.ForgottenPassword_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -29,36 +29,49 @@ namespace WindowsFormsApp1
 
         private void load_graphs()
         {
-            string connection_string = @"datasource=localhost;port=3306;username=root;password=";
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(connection_string))
+                MySqlConnection connection = new MySqlConnection();
+                connection.ConnectionString = "datasource=localhost;port=3306;username=root;password=";
+                connection.Open();
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "select * from project_db.drivers_results";
+                MySqlDataReader reader;
+                reader = cmd.ExecuteReader();
+                chart1.Series.Clear();
+                chart1.Series.Add("Points");
+                while (reader.Read())
                 {
-                    conn.Open();
-                    MySqlDataAdapter data_adapter = new MySqlDataAdapter("select * from project_db.drivers_results", conn);
-                    MessageBox.Show(data_adapter.ToString());
+                    chart1.Series[0].Points.AddXY(reader.GetString("FirstName") + " " + reader.GetString("LastName"), reader.GetFloat("Points"));
                 }
-
-                //string myConnectionString = @"datasource=localhost;port=3306;username=root;password=";
-                //MySqlConnection dbConnection = new MySqlConnection(myConnectionString);
-                //MySqlCommand sqlCmd = new MySqlCommand();
-                //MySqlCommand cmd = dbConnection.CreateCommand();
-                //cmd.CommandText = "SELECT * from project_db.drivers_results";
-                //MySqlDataReader reader;
-                //chart1.Series.Clear();
-                //chart2.Series.Clear();
-                //reader = cmd.ExecuteReader();
-                //while (reader.Read())
-                //{
-
-
-                //    chart1.Series[0].Points.AddXY(reader.GetString("FirstName"), reader.GetDateTime("LastName"));
-                //}
+                connection.Close();
             }
-            catch
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
+            }
+            try
+            {
+                MySqlConnection connection = new MySqlConnection();
+                connection.ConnectionString = "datasource=localhost;port=3306;username=root;password=";
+                connection.Open();
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "select * from project_db.constructors_results";
+                MySqlDataReader reader;
+                reader = cmd.ExecuteReader();
+                chart2.Series.Clear();
+                chart2.Series.Add("Points");
+                while (reader.Read())
+                {
+                    chart2.Series[0].Points.AddXY(reader.GetString("Name"), reader.GetFloat("Points"));
+                }
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
-    } 
-}
+    }
+} 
+

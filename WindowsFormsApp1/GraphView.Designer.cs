@@ -80,6 +80,7 @@ namespace WindowsFormsApp1
             this.ClientSize = new System.Drawing.Size(1151, 423);
             this.Controls.Add(this.chart2);
             this.Controls.Add(this.chart1);
+            this.MinimumSize = new System.Drawing.Size(1169, 470);
             this.Name = "GraphView";
             this.Text = "GraphView";
             this.Load += new System.EventHandler(this.GraphView_Load);
