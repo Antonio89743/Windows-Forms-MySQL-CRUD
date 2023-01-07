@@ -36,6 +36,7 @@ namespace WindowsFormsApp1
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.MinimumSize = new System.Drawing.Size(818, 497);
             this.Name = "AccountManager";
             this.Text = "AccountManager";
             this.Load += new System.EventHandler(this.AccountManager_Load);

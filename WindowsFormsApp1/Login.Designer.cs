@@ -140,6 +140,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.password);
             this.Controls.Add(this.username);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(783, 618);
             this.Name = "Login";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Login_Load);

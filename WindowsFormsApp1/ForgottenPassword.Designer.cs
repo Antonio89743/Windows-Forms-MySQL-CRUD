@@ -68,6 +68,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.reset_password);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
+            this.MinimumSize = new System.Drawing.Size(720, 443);
             this.Name = "ForgottenPassword";
             this.Text = "ForgottenPassword";
             this.Load += new System.EventHandler(this.ForgottenPassword_Load);

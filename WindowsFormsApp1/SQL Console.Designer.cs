@@ -70,6 +70,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.richTextBox1);
+            this.MinimumSize = new System.Drawing.Size(818, 497);
             this.Name = "SQL_Console";
             this.Text = "SQL_Console";
             this.Load += new System.EventHandler(this.SQL_Console_Load);

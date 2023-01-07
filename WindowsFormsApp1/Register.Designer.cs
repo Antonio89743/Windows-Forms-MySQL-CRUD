@@ -156,6 +156,8 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.password);
             this.Controls.Add(this.username);
             this.Controls.Add(this.register);
+            this.MaximumSize = new System.Drawing.Size(664, 581);
+            this.MinimumSize = new System.Drawing.Size(664, 581);
             this.Name = "register_form";
             this.Text = "Register";
             this.Load += new System.EventHandler(this.register_form_Load);

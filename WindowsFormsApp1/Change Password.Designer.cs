@@ -88,6 +88,7 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.new_password);
+            this.MinimumSize = new System.Drawing.Size(773, 442);
             this.Name = "Change_Password";
             this.Text = "Change_Password";
             this.ResumeLayout(false);
