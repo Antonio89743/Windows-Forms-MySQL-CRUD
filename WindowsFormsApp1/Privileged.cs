@@ -25,6 +25,7 @@ namespace WindowsFormsApp1
         }
 
         public string log_in_info { get; set; }
+        public string username { get; set; }
         public string log_in_password { get; set; }
 
         public Privileged()
@@ -41,6 +42,35 @@ namespace WindowsFormsApp1
             load_data_grid_view();
             this.log_in_info = account;
             this.log_in_password = password;
+            if (log_in_info.Contains("@"))
+            {
+                try
+                {
+                    MySqlCommand command;
+                    MySqlDataReader mdr;
+                    MySqlConnection connection = new MySqlConnection("datasource=localhost;port=3306;username=root;password=");
+                    connection.Open();
+                    string selectQuery = "SELECT * FROM loginform.userinfo WHERE (Username = '" + username + "' or Email = '" + username + "') AND Password = '" + password + "';";
+                    command = new MySqlCommand(selectQuery, connection);
+                    mdr = command.ExecuteReader();
+                    if (mdr.Read())
+                    {
+                        this.username = mdr.GetString("Username");
+                    }
+                    else
+                    {
+                    }
+                    connection.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Server connection failed. Check if Xampp's Apache and MySQL modules are working correctly.");
+                }
+            }
+            else
+            {
+                this.username = this.log_in_info;
+            }
         }
 
         private void FillTablePickerComboBox()
@@ -199,13 +229,12 @@ namespace WindowsFormsApp1
                     using (MySqlConnection conn = new MySqlConnection(connection_string))
                     {
                         MySqlCommand cmd = new MySqlCommand("delete from project_db." + table_picker.Text.ToString() + " where ID=" + Globals.id_of_selected_row, conn);
-                        cmd.Parameters.AddWithValue("@Table", table_picker.Text.ToString());
-                        cmd.Parameters.AddWithValue("@ID_of_selected_row", Globals.id_of_selected_row);
                         cmd.CommandTimeout = 1000;
                         conn.Open();
                         cmd.ExecuteNonQuery();
                         conn.Close();
                         load_data_grid_view();
+                        table_edited(table_picker.Text.ToString(), " ", Globals.id_of_selected_row.ToString(), "DELETE", Globals.id_of_selected_row.ToString());
                     }
                 }
                 catch (Exception ex)
@@ -218,12 +247,38 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Row is empty. Pick a row with a valid entry");
             }
         }
+
+        private void table_edited(string table, string new_value, string old_value, string change_type, string chenged_id)
+        {
+            string date_and_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string connection_string = @"datasource=localhost;port=3306;username=root;password=";
+            string values = this.username.ToString() + "', '" + date_and_time + "', '" + table + "', '" + change_type + "', '" + old_value + "', '" + new_value + "', '" + chenged_id;
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connection_string))
+                {
+                    MySqlCommand cmd = new MySqlCommand("insert into changes_db.changes (Username, Datetime, TableChanged, ChangeType, OldValue, NewValue, ChangedID) values('" + values + "')", conn);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             string connection_string = @"datasource=localhost;port=3306;username=root;password=";
             var data_input = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             var data_input_column_name_string = dataGridView1.Columns[e.ColumnIndex].Name.ToString();
             int? row_edited_id = null;
+            string new_value = "";
+            string old_value = "";
+            string change_type = "";
+            string chenged_id = row_edited_id.ToString();
             foreach (DataGridViewColumn column in this.dataGridView1.Columns)
             {
                 try
@@ -231,6 +286,8 @@ namespace WindowsFormsApp1
                     if (column.Name == "ID")
                     {
                         row_edited_id = Int16.Parse(dataGridView1.Rows[e.RowIndex].Cells[column.Index].Value.ToString());
+                        change_type = "CREATE";
+                        new_value = dataGridView1.Rows[e.RowIndex].Cells[column.Index].Value.ToString();
                     }
                 }
                 catch
@@ -243,9 +300,33 @@ namespace WindowsFormsApp1
                 int send_var = int.Parse(data_input);
                 try
                 {
+                    try
+                    {
+                        MySqlCommand command;
+                        MySqlDataReader mdr;
+                        MySqlConnection connection = new MySqlConnection("datasource=localhost;port=3306;username=root;password=");
+                        connection.Open();
+                        string selectQuery = "SELECT * FROM project_db." + table_picker.Text.ToString() + " where ID=" + row_edited_id;
+                        command = new MySqlCommand(selectQuery, connection);
+                        mdr = command.ExecuteReader();
+                        if (mdr.Read())
+                        {
+                            old_value = mdr.GetString("ID");
+                        }
+                        else
+                        {
+                        }
+                        connection.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Server connection failed. Check if Xampp's Apache and MySQL modules are working correctly.");
+                    }
                     using (MySqlConnection conn = new MySqlConnection(connection_string))
                     {
                         MySqlCommand cmd = new MySqlCommand("replace into project_db." + table_picker.Text.ToString() + "(" + data_input_column_name_string + ") values(" + send_var + ")", conn);
+                        change_type = "UPDATE";
+                        new_value = data_input;
                         cmd.CommandTimeout = 1000;
                         conn.Open();
                         cmd.ExecuteNonQuery();
@@ -261,18 +342,44 @@ namespace WindowsFormsApp1
             else if (data_input_column_name_string == "Points")
             {
                 float send_var = float.Parse(data_input);
+                new_value = send_var.ToString();
                 try
                 {
+                    try
+                    {
+                        MySqlCommand command;
+                        MySqlDataReader mdr;
+                        MySqlConnection connection = new MySqlConnection("datasource=localhost;port=3306;username=root;password=");
+                        connection.Open();
+                        string selectQuery = "SELECT * FROM project_db." + table_picker.Text.ToString() + " where ID=" + row_edited_id;
+                        command = new MySqlCommand(selectQuery, connection);
+                        mdr = command.ExecuteReader();
+                        if (mdr.Read())
+                        {
+                            old_value = mdr.GetString("Points");
+                        }
+                        else
+                        {
+                        }
+                        connection.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Server connection failed. Check if Xampp's Apache and MySQL modules are working correctly.");
+                    }
                     using (MySqlConnection conn = new MySqlConnection(connection_string))
                     {
                         MySqlCommand cmd;
                         if (row_edited_id != null)
                         {
                             cmd = new MySqlCommand("update project_db." + table_picker.Text.ToString() + " set " + data_input_column_name_string + "=" + send_var + " where ID=" + row_edited_id, conn);
+                            change_type = "UPDATE";
+
                         }
                         else
                         {
                             cmd = new MySqlCommand("insert into project_db." + table_picker.Text.ToString() + "(" + data_input_column_name_string + ") values('" + send_var + "')", conn);
+                            change_type = "CREATE";
                         }
                         cmd.CommandTimeout = 1000;
                         conn.Open();
@@ -289,18 +396,43 @@ namespace WindowsFormsApp1
             else
             {
                 string send_var = data_input;
+                new_value = send_var;
                 try
                 {
+                    try
+                    {
+                        MySqlCommand command;
+                        MySqlDataReader mdr;
+                        MySqlConnection connection = new MySqlConnection("datasource=localhost;port=3306;username=root;password=");
+                        connection.Open();
+                        string selectQuery = "SELECT * FROM project_db." + table_picker.Text.ToString() + " where ID=" + row_edited_id;
+                        command = new MySqlCommand(selectQuery, connection);
+                        mdr = command.ExecuteReader();
+                        if (mdr.Read())
+                        {
+                            old_value = mdr.GetString(data_input_column_name_string);
+                        }
+                        else
+                        {
+                        }
+                        connection.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Server connection failed. Check if Xampp's Apache and MySQL modules are working correctly.");
+                    }
                     using (MySqlConnection conn = new MySqlConnection(connection_string))
                     {
                         MySqlCommand cmd;
                         if (row_edited_id != null)
                         {
                             cmd = new MySqlCommand("update project_db." + table_picker.Text.ToString() + " set " + data_input_column_name_string + "='" + send_var + "' where ID=" + row_edited_id, conn);
+                            change_type = "UPDATE";
                         }
                         else
                         {
                             cmd = new MySqlCommand("insert into project_db." + table_picker.Text.ToString() + "(" + data_input_column_name_string + ") values('" + send_var + "')", conn);
+                            change_type = "CREATE";
                         }
                         cmd.CommandTimeout = 1000;
                         conn.Open();
@@ -315,6 +447,7 @@ namespace WindowsFormsApp1
                 }
             }
             load_data_grid_view();
+            table_edited(table_picker.Text.ToString(), new_value, old_value, change_type, chenged_id);
         }
 
         private void darkThemeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -341,6 +474,12 @@ namespace WindowsFormsApp1
         {
             SQL_Console sql_console = new SQL_Console();
             sql_console.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ViewChanges view = new ViewChanges();
+            view.ShowDialog();
         }
     }
 }

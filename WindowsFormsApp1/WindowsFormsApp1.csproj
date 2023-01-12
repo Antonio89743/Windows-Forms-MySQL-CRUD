@@ -243,6 +243,12 @@
     <Compile Include="SQL Console.Designer.cs">
       <DependentUpon>SQL Console.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewChanges.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewChanges.Designer.cs">
+      <DependentUpon>ViewChanges.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AccountManager.resx">
       <DependentUpon>AccountManager.cs</DependentUpon>
     </EmbeddedResource>
@@ -290,6 +296,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SQL Console.resx">
       <DependentUpon>SQL Console.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewChanges.resx">
+      <DependentUpon>ViewChanges.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
