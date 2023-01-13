@@ -59,7 +59,6 @@ namespace WindowsFormsApp1
                         if (email_exists = dr1.HasRows) MessageBox.Show("Email not available!");
                     if (!(email_exists))
                     {
-                        connection.Open();
                         MySqlCommand cmd;
                         cmd = new MySqlCommand("update loginform.userinfo set Email='" + textBox1.Text + "' where Username='" + log_in_info + "' or Email='" + log_in_info + "'", connection);
                         cmd.CommandTimeout = 1000;
